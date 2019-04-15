@@ -1,0 +1,6 @@
+/* pages/carList/carList.wxss */
+/*汽车站后边的定位小图标*/
+.localImg {
+  width: 12px;
+  height: 12px;
+}

@@ -1,0 +1,44 @@
+<!-- 选票主页 -->
+<view class="container">
+  <view class='headchoose'>
+   
+      <view class="weui-flex">
+            <view class="weui-flex__item"><view class="placeholder">出发城市</view></view>
+            <view class="weui-flex__item"><view class="placeholder">到达城市</view></view>
+        </view>
+      <view class="weui-flex">
+            <view class="weui-flex__item"><view class="placeholder">北京</view></view>
+            <view class="weui-flex__item"><view class="placeholder"><image class="changeimage" src='/images/change_line.png'></image></view></view>
+            <view class="weui-flex__item"><view class="placeholder">天津</view></view>
+        </view>
+    <view>
+    <view>05月09日 周四 </view>
+                    <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+  </view>
+ <view class="weui-flex">
+            <view class="weui-flex__item"><view class="placeholder">
+            <button type="primary" class='searchButton' bindtap='searchButton'>搜索</button>
+            </view></view>
+        </view>
+      <view>
+      <view>最近查询</view>
+      <view>
+      <view>北京-天津</view>
+      </view>
+      </view>
+
+  </view>
+
+
+<!-- 
+  <view class="userinfo">
+    <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
+    <block wx:else>
+      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
+      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+    </block>
+  </view>
+  <view class="usermotto">
+    <text class="user-motto">{{motto}}</text>
+  </view> -->
+</view>

@@ -1,0 +1,69 @@
+/* pages/mine/mine.wxss */
+/* pages/mine/mine.wxss */
+.user-info{
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+  background-color: #fff;
+  padding: 20rpx;
+}
+.minehead
+{
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  padding-left: 50rpx;
+}
+.user-info .headIcon image{
+  width:100rpx;
+  height:100rpx;
+  border-radius:50rpx;
+
+}
+.user-info .user-name{
+  padding: 20rpx;
+}
+.mine-func{
+  padding-top: 20rpx;
+}
+.navbg{
+  background: #fff;
+}
+.navbg view{
+  font-size: 32rpx;
+}
+.logout{
+  padding: 20rpx;
+}
+.weui-footer {
+  margin-top: 120%;
+}
+.testclass {
+  padding-left: 200rpx;
+  color: #aaaaaa;
+  font-size: 15px;
+
+}
+page,
+.page,
+.page__bd{
+    height: 100%;
+}
+.page__bd{
+    padding-bottom: 0;
+}
+.weui-tab__content{
+    padding-top: 60px;
+    text-align: center;
+}
+image {
+  width: 100px;
+  height: 100px;
+}
+.ordertext {
+  color: #bfbfbf;
+  font-size: 15px;
+}
+.weui-flex {
+  margin-top: 40rpx;
+}
