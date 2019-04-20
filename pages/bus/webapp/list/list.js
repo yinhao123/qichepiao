@@ -271,6 +271,7 @@ Page({
       i = e.data.busList[a],
       n = i.canBooking,
       s = "";
+      wx.setStorageSync("bus_Info",i);
     wx.navigateTo({
       url: "/pages/bus/webapp/booking/booking"
     });
@@ -517,19 +518,26 @@ Page({
         "Content-Type": "json"
       },
       success(res) {
-        console.log(res.data.data[0]);
-        var bus = {
-          scheduleId: res.data.data[0].id,
-          dptStation: res.data.data[0].start_station,
-          arrStation: res.data.data[0].arrival_station,
-          coachType: res.data.data[0].title,
-          ticketPrice: res.data.data[0].ticket_price,
-          coachNo: res.data.data[0].moto_num,
-          dptTime: res.data.data[0].departure_time,
-          canBooking: true
+        
+        for(var i=0;i<res.data.data.length;i++){
+           var bus = {
+          scheduleId: res.data.data[i].id,
+          dptStation: res.data.data[i].start_station,
+          arrStation: res.data.data[i].arrival_station,
+          coachType: res.data.data[i].title,
+          ticketPrice: res.data.data[i].ticket_price,
+          coachNo: res.data.data[i].moto_num,
+          dptTime: res.data.data[i].departure_time,
+          runTime: res.data.data[i].arrival_time,
+          dptDate: util.formatDateToSimple(new Date(that.data.queryDate)),
+          canBooking: true,
+          bookingType: 2
         };
+          bList.push(bus);
+        }
+       
         console.log(bus);
-        bList.push(bus);
+        
         that.setData({
           busList: bList
         });

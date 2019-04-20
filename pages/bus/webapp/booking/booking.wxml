@@ -91,10 +91,10 @@
                         <view class="ser-arrow">取票、退票详情</view>
                     </view>
                 </view>
-                <view bindtap="btnToggleAlter" class="ser-ins flex-box bor-top" wx:if="{{childPriceCount<=0&&isSimpleBeixuan=='B'}}">
+                <!--<view bindtap="btnToggleAlter" class="ser-ins flex-box bor-top" wx:if="{{childPriceCount<=0&&isSimpleBeixuan=='B'}}">
                     <text class="ser-instext">备选车次</text>
                     <text class="ser-arrow flex1">{{alterTxt}}</text>
-                </view>
+                </view>-->
                 <view bindtap="btnToggleSimAlter" class="ser-ins flex-box bor-top" wx:if="{{childPriceCount<=0&&isSimpleBeixuan=='A'}}">
                     <text class="ser-instext small-beixuan">无票时更换为{{Simhour}}的班次</text>
                     <view class="flex1">

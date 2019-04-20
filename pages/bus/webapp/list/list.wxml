@@ -101,8 +101,8 @@
                         </view>
                     </view>
                     <view class="schline-two flex_box flex_align_center">
-                        <view catchtap="btnShowRunTime" class="new-seize" wx:if="{{lists.runTimeScope&&lists.runTimeScope.length>0}}">
-                            <view class="new-abtime">约{{lists.runTimeScopeTime}}小时<text></text>
+                        <view catchtap="btnShowRunTime" class="new-seize" wx:if="{{lists.runTime}}">
+                            <view class="new-abtime">约{{lists.runTime}}到达<text></text>
                             </view>
                         </view>
                         <view catchtap="btnShowRunTime" class="new-seize" wx:elif="{{!!lists.runTime&&lists.runTime>0}}">
