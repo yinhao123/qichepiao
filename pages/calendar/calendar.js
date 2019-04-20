@@ -12,7 +12,7 @@
         Page({
             data: {
                 selectedDay: "",
-                saleDay: {},
+                saleDay: {"isSubscribe":true,"canSaleDay":75,"subscribe":23,"saleDay":52,"saleBeginDate":"2019-04-18"},
                 page: ""
             },
             onLoad: function(e) {
@@ -24,8 +24,9 @@
             },
             getCalendar: function(e) {
                 var a = e.detail;
-                console.log(a), l.default.setEvent(o.index, "DLSY04", "^日期:" + a.year + "年" + a.month + "月" + a.day + "日^"), 
-                this.data.page ? wx.setStorageSync("_selectedDate", a) : wx.setStorageSync("selectedDate", a), 
+                // console.log(a), l.default.setEvent(o.index, "DLSY04", "^日期:" + a.year + "年" + a.month + "月" + a.day + "日^");
+                wx.setStorageSync("_selectedDate", a) ;
+                wx.setStorageSync("selectedDate", a), 
                 wx.navigateBack();
             },
             onShareAppMessage: function() {
