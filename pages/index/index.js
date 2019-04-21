@@ -204,7 +204,7 @@ Page({
   goList: function(t) {
     var data = this.data;
     t.detail;
-    if (!wx.getStorageSync("tongcheng.unionid")) {
+    // if (!wx.getStorageSync("tongcheng.unionid")) {
       // var a = "/pages/bus/webapp/list/list?fromcity=" + data.depCity.name + "&tocity=" + data.desCity.name + "&date=" + data.datetime + "&saledays=" + data.saleDayObj.saleDay + "&wxrefid=" + data.refid;
       // a = "/pages/bus/webapp/list/list?fromcity=" + data.depCity.name + "&tocity=" + data.desCity.name + "&date=" + data.datetime + "&fromstation=" + (e.depCity.searchName || "") + "&tostation=" + (e.desCity.searchName || "") + "&pid=&bfCityId=" + e.depCity.id + "&btCityId=" + e.desCity.id,
       //   this.setLocCityData(e), 
@@ -212,11 +212,11 @@ Page({
         wx.navigateTo({
           url: "/pages/bus/webapp/list/list?fromcity=" + data.depCity.name + "&tocity=" + data.desCity.name + "&date=" + data.datetime
         });
-    } 
-    else
-      wx.navigateTo({
-        url: "/pages/getAuthInfo/getAuthInfo"
-      });
+    // } 
+    // else
+    //   wx.navigateTo({
+    //     url: "/pages/getAuthInfo/getAuthInfo"
+    //   });
   },
   setRecentCity: function(t) {
     // var e = t.currentTarget.dataset.index,

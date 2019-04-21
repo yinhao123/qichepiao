@@ -69,12 +69,12 @@ function formatDateToWeek (data ) {
 }
 
 function saveFormid(e, t, n, r, o) {
-  if ("" == e || "the formId is a mock one" == e) return !1;
-  var i = encodeURIComponent,
-    a = "openid=" + i(wx.getStorageSync("tongcheng.openid")) + "&unionid=" + i(wx.getStorageSync("tongcheng.unionid")) + "&memberid=" + i(wx.getStorageSync("tongcheng.memberid")) + "&formid=" + i(e) + "&category=" + (i(t) || "category") + "&action=" + (i(n) || "click") + "&label=" + i(r) + "&value=" + i(o || r) + "&scene=" + getApp().globalData.scene;
-  u(g.default.saveFormid, a, "POST", {
-    "Content-Type": "application/x-www-form-urlencoded"
-  }, 3e3).then(function () { }).catch(function () { });
+  // if ("" == e || "the formId is a mock one" == e) return !1;
+  // var i = encodeURIComponent,
+  //   a = "openid=" + i(wx.getStorageSync("tongcheng.openid")) + "&unionid=" + i(wx.getStorageSync("tongcheng.unionid")) + "&memberid=" + i(wx.getStorageSync("tongcheng.memberid")) + "&formid=" + i(e) + "&category=" + (i(t) || "category") + "&action=" + (i(n) || "click") + "&label=" + i(r) + "&value=" + i(o || r) + "&scene=" + getApp().globalData.scene;
+  // u(g.default.saveFormid, a, "POST", {
+  //   "Content-Type": "application/x-www-form-urlencoded"
+  // }, 3e3).then(function () { }).catch(function () { });
 }
 
 function setEvent(e, t, n) {

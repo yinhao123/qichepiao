@@ -12,10 +12,11 @@
         Page({
             data: {
                 selectedDay: "",
-                saleDay: {"isSubscribe":true,"canSaleDay":75,"subscribe":23,"saleDay":52,"saleBeginDate":"2019-04-18"},
+                saleDay: {},
                 page: ""
             },
             onLoad: function(e) {
+              console.log("saleDay",e.saleDay);
                 this.setData({
                     selectedDay: e.selectedDate || (0, s.default)().format("l"),
                     saleDay: JSON.parse(e.saleDay || "{}"),

@@ -27,6 +27,7 @@ Page({
     },
     endDate: "",
     sixDayArrs: [],
+    saleDayObj: { "isSubscribe": true, "canSaleDay": 75, "subscribe": 23, "saleDay": 52, "saleBeginDate": "2019-04-18" },
     loading: true,
     page: 0,
     totalPage: 1,
@@ -311,9 +312,10 @@ Page({
     util.loading(), setTimeout(function() {
       wx.hideToast();
     }, 300);
-    var t = wx.getStorageSync("busSaleDays") || {};
+    var t = wx.getStorageSync("busSaleDays")||{};
+    console.log("saleDay",JSON.stringify(that.data.saleDayObj));
     this.data.queryDate && wx.navigateTo({
-      url: "/pages/calendar/calendar?selectedDate=" + util.formatTime(new Date(that.data.queryDate)) + "&saleDay=" + JSON.stringify(t) + "&page=list"
+      url: "/pages/calendar/calendar?selectedDate=" + util.formatTime(new Date(that.data.queryDate)) + "&saleDay=" + JSON.stringify(that.data.saleDayObj) + "&page=list"
     });
   },
 

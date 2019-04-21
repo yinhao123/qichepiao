@@ -2135,33 +2135,33 @@ var api=require('../../../../config/api.js');
           this.setData((i = {}, i["fillPassList[" + a.index + "]"] = a.adult, i));
         }
       },
-      btnDeleteFreeChild: function(e) {
-        var t, a = e.currentTarget.dataset.idx,
-          s = this.fnFindMapchildParent(e);
-        s.adult.carryChildren.splice(a, 1), 0 >= s.adult.carryChildren.length && delete s.adult.carryChildren,
-          this.setData((t = {}, t["plists[" + s.index + "]"] = s.adult, t.freeChildCount = this.data.freeChildCount - 1,
-            t)), wx.setStorageSync("bus_lastPassengers", this.data.plists);
-        var i, r;
-        if ((this.data.passengers.length ? this.data.passengers : this.data.fillPassList).forEach(function(e, t) {
-            e.IDCard == s.adult.IDCard && e.linkerName == s.adult.linkerName && (i = t, r = e);
-          }), r.carryChildren.splice(a, 1), 0 >= r.carryChildren.length && delete r.carryChildren,
-          this.data.passengers.length) {
-          var n;
-          this.setData((n = {}, n["passengers[" + i + "]"] = r, n));
-        } else {
-          var d;
-          this.setData((d = {}, d["fillPassList[" + i + "]"] = r, d));
-        }
-        this.funGetInsDoc(this.data.plists);
-      },
-      btnEditFreeChild: function(e) {
-        var t = JSON.parse(JSON.stringify(this.data.plists)),
-          a = e.currentTarget.dataset.idx,
-          s = this.fnFindMapchildParent(e);
-        t[s.index].isEdit = !0, t[s.index].carryChildren[a].isEdit = !0, wx.navigateTo({
-          url: "../concatlist/concatlist?action=editFreeChild&plists=" + JSON.stringify(t)
-        });
-      },
+      // btnDeleteFreeChild: function(e) {
+      //   var t, a = e.currentTarget.dataset.idx,
+      //     s = this.fnFindMapchildParent(e);
+      //   s.adult.carryChildren.splice(a, 1), 0 >= s.adult.carryChildren.length && delete s.adult.carryChildren,
+      //     this.setData((t = {}, t["plists[" + s.index + "]"] = s.adult, t.freeChildCount = this.data.freeChildCount - 1,
+      //       t)), wx.setStorageSync("bus_lastPassengers", this.data.plists);
+      //   var i, r;
+      //   if ((this.data.passengers.length ? this.data.passengers : this.data.fillPassList).forEach(function(e, t) {
+      //       e.IDCard == s.adult.IDCard && e.linkerName == s.adult.linkerName && (i = t, r = e);
+      //     }), r.carryChildren.splice(a, 1), 0 >= r.carryChildren.length && delete r.carryChildren,
+      //     this.data.passengers.length) {
+      //     var n;
+      //     this.setData((n = {}, n["passengers[" + i + "]"] = r, n));
+      //   } else {
+      //     var d;
+      //     this.setData((d = {}, d["fillPassList[" + i + "]"] = r, d));
+      //   }
+      //   this.funGetInsDoc(this.data.plists);
+      // },
+      // btnEditFreeChild: function(e) {
+      //   var t = JSON.parse(JSON.stringify(this.data.plists)),
+      //     a = e.currentTarget.dataset.idx,
+      //     s = this.fnFindMapchildParent(e);
+      //   t[s.index].isEdit = !0, t[s.index].carryChildren[a].isEdit = !0, wx.navigateTo({
+      //     url: "../concatlist/concatlist?action=editFreeChild&plists=" + JSON.stringify(t)
+      //   });
+      // },
       fnFindMapchildParent: function(e, t) {
         var a, s, i = e.currentTarget.dataset.pid,
           r = e.currentTarget.dataset.pname;
@@ -2228,405 +2228,406 @@ var api=require('../../../../config/api.js');
 
       btnToPay: function() {
         var e;
-        if (this.setData({
-            isShowDetail: !1
-          }), 1 == this.data.isCanclePay) return !1;
-        this.data.isCanclePay = !0;
-        var t, a, s, i, r = this,
-          n = this.data.contactPhone,
-          d = [],
-          o = 0,
-          c = r.fnCalculateCount(),
-          l = c.adultCount,
-          D = c.childCount,
-          S = c.adultPriceCount,
-          I = c.childPriceCount,
-          m = "",
-          P = null,
-          w = "",
-          T = r.data.fillPassList,
-          x = !0,
-          k = {};
-        if (r.data.isSuggestChoseAlter && 2 == r.data.busInfo.bookingType && !r.data.isCheckAlternate && "A" != r.data.isSimpleBeixuan && 0 == I) return r.setData({
-          isSuggestChoseAlter: !1
-        }), r.data.alterDay.forEach(function(e, t) {
-          if ("本车次日期" == e.desc) {
-            var a;
-            r.setData((a = {}, a["alterDay[" + t + "].selected"] = !0, a));
-          }
-        }), r.data.alterHour.forEach(function(e, t) {
-          if ("前后2小时" == e.desc) {
-            var a;
-            r.setData((a = {}, a["alterHour[" + t + "].selected"] = !0, a));
-          }
-        }), r.setData({
-          alterTitle: "预约票源紧张，建议选择备选车次，提升抢票成功率，保障顺利出行",
-          isShowAlter: !0
-        }), this.updateAlterTxt(), this.updateOptionsSchedulesTimes(), this.data.isCanclePay = !1, !1;
-        if ("3" == r.data.localInfo.revenueType && !r.data.isAdult && !p.isEmpty(r.data.localInfo.superValue) && r.data.localInfo.superValue.insCodeList && r.data.localInfo.superValue.insCodeList.length) return p.alert("超值套票需要包含成年人才能购买哦"),
-          u.default.setEvent(C, "DLDD18", "^名称:[超值套票需要包含成年人才能购买哦]^"), this.data.isCanclePay = !1, !1;
-        if (r.data.isSupportChild && I && !S) return p.alert("为确保出行安全，儿童乘客须有乘客陪同!"), u.default.setEvent(C, "DLDD18", "^名称:[为确保出行安全，儿童乘客须有乘客陪同!]^"),
-          this.data.isCanclePay = !1, !1;
-        if (!r.data.passengers.length) {
-          for (var A, L = 0; L < T.length; L++) {
-            if (A = T[L], s = r.funValidateNameNotice(A)) return x = !1, 0 <= s.indexOf("身份证") ? (p.alert(s, "", "", "", "", function() {
-                setTimeout(function() {
-                  var e;
-                  r.setData((e = {}, e["fillPassList[" + L + "].idFocus"] = !0, e));
-                }, 0);
-              }), u.default.setEvent(C, "DLDD18", "^名称:[" + s + "]^")) : (p.alert(s), u.default.setEvent(C, "DLDD18", "^名称:[" + s + "]^")),
-              this.data.isCanclePay = !1, !1;
-            if (k[A.IDCard.toLowerCase()]) return x = !1, p.alert("乘客【" + k[A.IDCard.toLowerCase()] + "】、【" + A.linkerName + "】身份证号重复，请核实后重新输入"),
-              u.default.setEvent(C, "DLDD18", "^名称:[身份证号重复]^"), this.data.isCanclePay = !1, !1;
-            k[A.IDCard.toLowerCase()] = A.linkerName;
-          }
-          if (!x) return this.data.isCanclePay = !1, !1;
-        }
-        if (!r.data.plists.length) return p.alert("请添加乘客!"), u.default.setEvent(C, "DLDD18", "^名称:[请添加乘客]^"),
-          this.data.isCanclePay = !1, !1;
-        if (p.isEmpty(r.data.contactInfo)) return p.alert("请添加取票人!"), u.default.setEvent(C, "DLDD18", "^名称:[请添加取票人]^"),
-          this.data.isCanclePay = !1, !1;
-        if (!r.isMobile(n)) return p.alert("请输入正确的手机号码!", "", "", "", "", function() {
-          setTimeout(function() {
-            r.setData({
-              phoneFocus: !0
-            });
-          }, 0);
-        }), u.default.setEvent(C, "DLDD18", "^名称:[请输入正确的手机号码]^"), this.data.isCanclePay = !1, !1;
-        if (r.data.homeDeliveryStatus && p.isEmpty(r.data.addressInfo)) return p.alert("请添加邮寄地址!"),
-          this.data.isCanclePay = !1, !1;
-        var N, E, M = wx.getStorageSync("bus_pid");
-        if (M && (r.setData({
-            isHasPid: !0
-          }), N = M.addtime + M.indate, E = new Date().getTime(), N > E ? w = M.value : wx.removeStorageSync("bus_pid")),
-          wx.setStorageSync("bus_newContactPhone", n), r.data.plists.forEach(function(e) {
-            var t = {
-              name: e.linkerName,
-              idCard: e.IDCard,
-              mobileNo: "",
-              idType: 1,
-              passengerType: r.data.isSupportChild ? e.type || 0 : 0
-            };
-            if (r.data.supportFreeChild && r.data.adultCount && 0 < r.data.localInfo.freeChildCntLeft && e.carryChildren) {
-              t.carryChildren = JSON.parse(JSON.stringify(e.carryChildren));
-              for (var a = t.carryChildren, s = Array.isArray(a), i = 0, a = s ? a : a[Symbol.iterator]();;) {
-                var n;
-                if (s) {
-                  if (i >= a.length) break;
-                  n = a[i++];
-                } else {
-                  if ((i = a.next()).done) break;
-                  n = i.value;
-                }
-                var o = n;
-                for (var c in o) "name" != c && "cardNo" != c && delete o[c];
-              }
-            }
-            d.push(t);
-          }), o = d.length, r.data.isSupportChild) {
-          if (l > r.data.maxNum) return p.alert("最多只能预订" + r.data.maxNum + "张成人票!"), u.default.setEvent(C, "DLDD18", "^名称:[最多只能预订" + r.data.maxNum + "张成人票!]^"),
-            this.data.isCanclePay = !1, !1;
-        } else if (o > r.data.maxNum) return p.alert("最多只能预订" + r.data.maxNum + "张票!"),
-          u.default.setEvent(C, "DLDD18", "^名称:[最多只能预订" + r.data.maxNum + "张票!]^"), this.data.isCanclePay = !1, !1;
-        if (r.data.isSupportChild && I > r.data.childMaxNum) return p.alert("最多只能预定" + r.data.childMaxNum + "张儿童票!"),
-          u.default.setEvent(C, "DLDD18", "^名称:[最多只能预定" + r.data.childMaxNum + "张儿童票!]^"),
-          this.data.isCanclePay = !1, !1;
-        r.setData({
-          isHiddenCar: !1
-        }), setTimeout(function() {
-          r.animation.translateX(r.data.animateWidth).step(), r.setData({
-            animationData: r.animation.export()
-          });
-        }.bind(r), 20), i = new Date().getTime() + 20, t = {
-          name: r.data.contactInfo.linkerName,
-          idCard: r.data.contactInfo.IDCard,
-          mobileNo: n,
-          idType: 1,
-          passengerType: 0
-        }, m = r.data.localInfo.exData ? r.data.localInfo.exData : r.data.busInfo.exData1 ? r.data.busInfo.exData1 : "", !p.isEmpty(r.data.preferInfo) && r.data.selectedPrefer && (P = [{
-          id: r.data.preferInfo.id,
-          amount: this.accMulti(r.data.preferInfo.preferentialType, r.data.preferInfo.preferentialDimension ? o : 1)
-        }]);
-        var O = [];
-        r.data.isPeaceTravel && r.data.isAdult && r.data.defInsDb ? O = [{
-          insuranceId: r.data.defIns.pubID,
-          insuranceAmount: r.data.defIns.insCusPayTc * o
-        }] : r.data.isAdult && !r.data.isPeaceTravel ? r.data.defInsMulti.forEach(function(e) {
-          O.push({
-            insuranceId: e.pubID,
-            insuranceAmount: e.insCusPayTc * o
-          });
-        }) : O = [{
-          insuranceId: 0,
-          insuranceAmount: 0
-        }];
-        var _ = 0,
-          R = 0,
-          V = 0,
-          H = function() {
-            return 3 == r.data.localInfo.revenueType ? (_ = r.data.localInfo.revenueId, R = r.data.localInfo.revenuePrice,
-              r.data.isCanclePay = !1, !1) : (r.data.isAdult && r.data.isHasOptSvc && (_ = r.data.defaultOpt.serviceId,
-              R = r.data.defaultOpt.sellPrice, V = 0), void(!r.data.isAdult && r.data.isHasExtSvc && (_ = r.data.defaultExt.serviceId,
-              R = r.data.defaultExt.sellPrice, V = 1)));
-          };
-        r.data.isPeaceTravel && r.data.isAdult ? !r.data.defInsDb && H() : H();
-        var U = [],
-          F = function(e) {
-            p.isEmpty(e) || U.push({
-              revenueId: e.id || "",
-              businessCode: e.code || "",
-              serviceAmount: e.price || ""
-            });
-          };
-        r.data.YyStatus && F(r.data.YyData), r.data.IssueStatus && F(r.data.stList.find(function(e) {
-          return "FastTicketOut" == e.code;
-        }));
-        var j = Object.assign({}, r.data.addressInfo);
-        if (p.isEmpty(r.data.addressInfo) || (j = {
-            address: r.data.addressInfo.addressDetail || "",
-            city: r.data.addressInfo.modefyRegion[1].replace(/市/, "") || "",
-            district: r.data.addressInfo.modefyRegion[2].replace(/市/, "") || "",
-            expressFee: r.data.addressInfo.expressFee || "",
-            hdSupplierId: r.data.addressInfo.hdSupplierId || "",
-            homeDeliveryId: r.data.addressInfo.homeDeliveryId || "",
-            phone: r.data.addressInfo.contactPhone || "",
-            province: r.data.addressInfo.modefyRegion[0].replace(/省/, "") || "",
-            receiver: r.data.addressInfo.addName || ""
-          }, j.agentFee = 1e3 * r.data.addressInfo.agentFee * (l + D) / 1e3, 3 <= r.data.featureValue && !!r.data.homeDelivery.show && (j.expressFee = 0)),
-          2 == r.data.localInfo.revenueType) {
-          var B = g.find(function(e) {
-            return "FastTicketOut" == e.code;
-          });
-          p.isEmpty(B) || U.push({
-            revenueId: B.id || "",
-            businessCode: B.code || "",
-            serviceAmount: B.price || ""
-          });
-        }
-        if (4 == r.data.localInfo.revenueType) {
-          var q = g.find(function(e) {
-            return "VIPHall" == e.code;
-          });
-          p.isEmpty(q) || U.push({
-            revenueId: q.id || "",
-            businessCode: q.code || "",
-            serviceAmount: q.price || ""
-          });
-        }
-        var Y = r.data.busInfo,
-          W = r.data.localInfo,
-          G = r.data;
-        (e = {
-          isSubscrible: 2 == Y.bookingType,
-          totalAmount: G.totalPrice,
-          serviceChargeId: Y.serviceChargeID,
-          serviceChargeType: Y.serviceChargeType,
-          serviceChargePrice: G.isHasService ? Y.serviceChargePrice * o : 0,
-          insurances: O,
-          vipChargeId: _,
-          vipChargeAmount: R,
-          vipChargeType: V,
-          voucherId: 0,
-          voucherSellPrice: 0,
-          voucherCount: 0,
-          scheduleInfo: {
-            scheduleNo: W.scheduleNo || "",
-            scheduleId: W.scheduleId || "",
-            dptDate: W.dptDate || "",
-            supplierId: W.supplierId || "",
-            ticketPrice: Y.ticketPrice,
-            departure: Y.departure,
-            destination: Y.destination,
-            dptStation: Y.dptStation,
-            arrStation: Y.arrStation,
-            coachNo: Y.coachNo,
-            dptTime: Y.dptTime,
-            exData: m,
-            depId: W.depCId || 0,
-            desId: W.desCId || 0
-          },
-          contactInfo: t,
-          passengersInfo: G.isSupportChild ? d.concat([]) : d,
-          homeDeliveryInfo: G.homeDeliveryStatus && !p.isEmpty(j) ? j : null,
-          canOptionSchedules: !(0 < I) && G.isCheckAlternate,
-          optionSchedulesTimes: 0 < I || !G.isCheckAlternate ? [] : G.optionSchedulesTimes,
-          refundRuleId: G.refundStatus ? y.refund.id : 0,
-          refundRuleServicePrice: G.refundStatus ? y.refund.price : 0,
-          fastTicketOut: G.IssueStatus,
-          runningSchFlag: parseInt(Y.runningSchFlag) || 0,
-          preferentialList: P,
-          carVoucherInfo: {
-            voucherId: 0 < G.carCouNum ? G.carCoupon.vouId : 0,
-            voucherSellPrice: 0 < G.carCouNum ? G.carCoupon.vouSellPrice : 0,
-            voucherCount: 0 < G.carCouNum ? G.carCouNum : 0
-          }
-        }).voucherCount = G.hasHotelCoupon ? G.hotelCouNum : 0, e.voucherId = G.hasHotelCoupon ? G.hotelCoupon.vouId : 0,
-          e.voucherSellPrice = G.hasHotelCoupon ? G.hotelCoupon.vouSellPrice : 0, e.adjustPrice = r.accMulti(G.adjustPrice, o),
-          e.pid = w, e.busVoucherInfo = G.busVoucherIsSel ? {
-            voucherId: G.busVoucher.vouId,
-            voucherSellPrice: G.busVoucher.vouSellPrice,
-            voucherCount: 1
-          } : {}, e.propertiesEntity = {
-            packageType: G.localInfo.revenueType || ""
-          }, e.categoryRevenueId = U, e.vipSubscribe = this.data.vipSubscribe && !this.data.ASisExceedLimit && this.data.subscribeInfoObj.isSubscribe ? 1 : 0,
-          a = e, b && (a.revenueRecommendCode = b), !p.isEmpty(r.data.selectCode) && 0 < r.data.selectCode.showPrice && (a.wechatCardCode = r.data.selectCode.code),
-          r.data.YyStatus && (a.activityType = "Bus_YiyuanFree", a.activityId = "46"), p.isEmpty(a.reduceCard_buy) && (a.preferentialCard = {}),
-          this.data.isHasRedCardBuy && this.data.isSelectedRedCard && (a.preferentialCard.buy = {
-            preferentialCardId: this.data.reduceCard_buy.id,
-            preferentialCardAmount: this.data.reduceCard_buy.discountMoney,
-            preferentialCardPrice: this.data.reduceCard_buy.sellPrice
-          }), this.data.isHasRedCardUse && this.data.isSelectedRedCard && (a.preferentialCard.timeCard = {
-            preferentialCardId: this.data.reduceCard_use.id,
-            preferentialCardAmount: this.data.reduceCard_use.discountMoney
-          }), wx.request({
-            url: f.createOrder,
-            method: "POST",
-            header: p.setHeader({
-              wxappscene: h.globalData.scene || ""
-            }),
-            data: JSON.stringify(a),
-            success: function(e) {
-              function t() {
-                return wx.setStorageSync("bus_orderSerialId", e.data.header.isSuccess ? e.data.body.serialId : ""),
-                  e.data.header.isSuccess && r.data.vipSubscribe && r.data.isSelectedSubscribe && !r.data.ASisExceedLimit ? (r.queryReadyWithHold(function() {
-                    r.data.isChannel ? wx.redirectTo({
-                      url: "../orderdetail/orderdetail?isReadTime=true&orderSerialId=" + e.data.body.serialId
-                    }) : r.ChannelWithHold(e.data.body.serialId);
-                  }), r.data.isCanclePay = !1, !1) : "EI_PA_000001" == (e = e.data).header.errCode || "EI_PA_000002" == e.header.errCode ? (wx.showModal({
-                    content: e.header.errMsg,
-                    title: "温馨提示",
-                    showCancel: !1,
-                    confirmText: "确定",
-                    confirmColor: "#3CC51F",
-                    success: function(e) {
-                      e.confirm && (r.setData({
-                        preferInfo: {}
-                      }), r.funCountPrice(), r.btnToPay());
-                    }
-                  }), r.data.isCanclePay = !1, !1) : void(e.header.isSuccess ? (v = e.body.forceServiceFee,
-                    e.body.forceServiceFee && 0 < e.body.forceServiceFee.activityLimit ? (r.setData({
-                      forceServiceFee: e.body.forceServiceFee.activityLimit
-                    }), r.setData({
-                      showFSFee: !0
-                    }), setTimeout(function() {
-                      r.setData({
-                        showFSFee: !1
-                      }), r.WXMobileGatewayRequest(e);
-                    }, 2e3)) : r.WXMobileGatewayRequest(e), r.data.isHasPid && wx.removeStorageSync("bus_pid")) : (r.data.isCanclePay = !1,
-                    p.alert(e.header.errMsg), u.default.setEvent(C, "DLDD18", "^名称:[" + e.header.errMsg + "]^")));
-              }
-              var a = new Date().getTime() - i;
-              a < r.data.loadingDuration ? setTimeout(function() {
-                r.animation.translateX(0).step(), r.setData({
-                  isHiddenCar: !0,
-                  animationData: r.animation.export()
-                }), t();
-              }, r.data.loadingDuration - a) : (r.animation.translateX(0).step(), r.setData({
-                isHiddenCar: !0,
-                animationData: r.animation.export()
-              }), t());
-            }
-          }), wx.setStorageSync("bus_lastPassengers", r.data.plists), r.funGetInsDoc(r.data.plists);
-        var z = [];
+        // if (this.setData({
+        //     isShowDetail: !1
+        //   }), 1 == this.data.isCanclePay) return !1;
+        // this.data.isCanclePay = !0;
+        // var t, a, s, i, r = this,
+        //   n = this.data.contactPhone,
+        //   d = [],
+        //   o = 0,
+        //   c = 0,
+        //   l = c.adultCount,
+        //   D = c.childCount,
+        //   S = c.adultPriceCount,
+        //   I = c.childPriceCount,
+        //   m = "",
+        //   P = null,
+        //   w = "",
+        //   T = r.data.fillPassList,
+        //   x = !0,
+        //   k = {};
+        // if (r.data.isSuggestChoseAlter && 2 == r.data.busInfo.bookingType && !r.data.isCheckAlternate && "A" != r.data.isSimpleBeixuan && 0 == I) return r.setData({
+        //   isSuggestChoseAlter: !1
+        // }), r.data.alterDay.forEach(function(e, t) {
+        //   if ("本车次日期" == e.desc) {
+        //     var a;
+        //     r.setData((a = {}, a["alterDay[" + t + "].selected"] = !0, a));
+        //   }
+        // }), r.data.alterHour.forEach(function(e, t) {
+        //   if ("前后2小时" == e.desc) {
+        //     var a;
+        //     r.setData((a = {}, a["alterHour[" + t + "].selected"] = !0, a));
+        //   }
+        // }), r.setData({
+        //   alterTitle: "预约票源紧张，建议选择备选车次，提升抢票成功率，保障顺利出行",
+        //   isShowAlter: !0
+        // }), this.updateAlterTxt(), this.updateOptionsSchedulesTimes(), this.data.isCanclePay = !1, !1;
+        // if ("3" == r.data.localInfo.revenueType && !r.data.isAdult && !p.isEmpty(r.data.localInfo.superValue) && r.data.localInfo.superValue.insCodeList && r.data.localInfo.superValue.insCodeList.length) return p.alert("超值套票需要包含成年人才能购买哦"),
+        //   u.default.setEvent(C, "DLDD18", "^名称:[超值套票需要包含成年人才能购买哦]^"), this.data.isCanclePay = !1, !1;
+        // if (r.data.isSupportChild && I && !S) return p.alert("为确保出行安全，儿童乘客须有乘客陪同!"), u.default.setEvent(C, "DLDD18", "^名称:[为确保出行安全，儿童乘客须有乘客陪同!]^"),
+        //   this.data.isCanclePay = !1, !1;
+        // if (!r.data.passengers.length) {
+        //   for (var A, L = 0; L < T.length; L++) {
+        //     if (A = T[L], s = r.funValidateNameNotice(A)) return x = !1, 0 <= s.indexOf("身份证") ? (p.alert(s, "", "", "", "", function() {
+        //         setTimeout(function() {
+        //           var e;
+        //           r.setData((e = {}, e["fillPassList[" + L + "].idFocus"] = !0, e));
+        //         }, 0);
+        //       }), u.default.setEvent(C, "DLDD18", "^名称:[" + s + "]^")) : (p.alert(s), u.default.setEvent(C, "DLDD18", "^名称:[" + s + "]^")),
+        //       this.data.isCanclePay = !1, !1;
+        //     if (k[A.IDCard.toLowerCase()]) return x = !1, p.alert("乘客【" + k[A.IDCard.toLowerCase()] + "】、【" + A.linkerName + "】身份证号重复，请核实后重新输入"),
+        //       u.default.setEvent(C, "DLDD18", "^名称:[身份证号重复]^"), this.data.isCanclePay = !1, !1;
+        //     k[A.IDCard.toLowerCase()] = A.linkerName;
+        //   }
+        //   if (!x) return this.data.isCanclePay = !1, !1;
+        // }
+        // if (!r.data.plists.length) return p.alert("请添加乘客!");
+        // if (p.isEmpty(r.data.contactInfo)) return p.alert("请添加取票人!");
+        // if (!r.isMobile(n)) return p.alert("请输入正确的手机号码!", "", "", "", "", function() {
+        //   setTimeout(function() {
+        //     r.setData({
+        //       phoneFocus: !0
+        //     });
+        //   }, 0);
+        // }), u.default.setEvent(C, "DLDD18", "^名称:[请输入正确的手机号码]^"), this.data.isCanclePay = !1, !1;
+        // if (r.data.homeDeliveryStatus && p.isEmpty(r.data.addressInfo)) return p.alert("请添加邮寄地址!"),
+        //   this.data.isCanclePay = !1, !1;
+        // var N, E, M = wx.getStorageSync("bus_pid");
+        // if (M && (r.setData({
+        //     isHasPid: !0
+        //   }), N = M.addtime + M.indate, E = new Date().getTime(), N > E ? w = M.value : wx.removeStorageSync("bus_pid")),
+        //   wx.setStorageSync("bus_newContactPhone", n), r.data.plists.forEach(function(e) {
+        //     var t = {
+        //       name: e.linkerName,
+        //       idCard: e.IDCard,
+        //       mobileNo: "",
+        //       idType: 1,
+        //       passengerType: r.data.isSupportChild ? e.type || 0 : 0
+        //     };
+        //     if (r.data.supportFreeChild && r.data.adultCount && 0 < r.data.localInfo.freeChildCntLeft && e.carryChildren) {
+        //       t.carryChildren = JSON.parse(JSON.stringify(e.carryChildren));
+        //       for (var a = t.carryChildren, s = Array.isArray(a), i = 0, a = s ? a : a[Symbol.iterator]();;) {
+        //         var n;
+        //         if (s) {
+        //           if (i >= a.length) break;
+        //           n = a[i++];
+        //         } else {
+        //           if ((i = a.next()).done) break;
+        //           n = i.value;
+        //         }
+        //         var o = n;
+        //         for (var c in o) "name" != c && "cardNo" != c && delete o[c];
+        //       }
+        //     }
+        //     d.push(t);
+        //   }), o = d.length, r.data.isSupportChild) {
+        //   if (l > r.data.maxNum) return p.alert("最多只能预订" + r.data.maxNum + "张成人票!"), u.default.setEvent(C, "DLDD18", "^名称:[最多只能预订" + r.data.maxNum + "张成人票!]^"),
+        //     this.data.isCanclePay = !1, !1;
+        // } else if (o > r.data.maxNum) return p.alert("最多只能预订" + r.data.maxNum + "张票!"),
+        //   u.default.setEvent(C, "DLDD18", "^名称:[最多只能预订" + r.data.maxNum + "张票!]^"), this.data.isCanclePay = !1, !1;
+        // if (r.data.isSupportChild && I > r.data.childMaxNum) return p.alert("最多只能预定" + r.data.childMaxNum + "张儿童票!"),
+        //   u.default.setEvent(C, "DLDD18", "^名称:[最多只能预定" + r.data.childMaxNum + "张儿童票!]^"),
+        //   this.data.isCanclePay = !1, !1;
+        // r.setData({
+        //   isHiddenCar: !1
+        // }), setTimeout(function() {
+        //   r.animation.translateX(r.data.animateWidth).step(), r.setData({
+        //     animationData: r.animation.export()
+        //   });
+        // }.bind(r), 20), i = new Date().getTime() + 20, t = {
+        //   name: r.data.contactInfo.linkerName,
+        //   idCard: r.data.contactInfo.IDCard,
+        //   mobileNo: n,
+        //   idType: 1,
+        //   passengerType: 0
+        // }, m = r.data.localInfo.exData ? r.data.localInfo.exData : r.data.busInfo.exData1 ? r.data.busInfo.exData1 : "", !p.isEmpty(r.data.preferInfo) && r.data.selectedPrefer && (P = [{
+        //   id: r.data.preferInfo.id,
+        //   amount: this.accMulti(r.data.preferInfo.preferentialType, r.data.preferInfo.preferentialDimension ? o : 1)
+        // }]);
+        // var O = [];
+        // r.data.isPeaceTravel && r.data.isAdult && r.data.defInsDb ? O = [{
+        //   insuranceId: r.data.defIns.pubID,
+        //   insuranceAmount: r.data.defIns.insCusPayTc * o
+        // }] : r.data.isAdult && !r.data.isPeaceTravel ? r.data.defInsMulti.forEach(function(e) {
+        //   O.push({
+        //     insuranceId: e.pubID,
+        //     insuranceAmount: e.insCusPayTc * o
+        //   });
+        // }) : O = [{
+        //   insuranceId: 0,
+        //   insuranceAmount: 0
+        // }];
+        // var _ = 0,
+        //   R = 0,
+        //   V = 0,
+        //   H = function() {
+        //     return 3 == r.data.localInfo.revenueType ? (_ = r.data.localInfo.revenueId, R = r.data.localInfo.revenuePrice,
+        //       r.data.isCanclePay = !1, !1) : (r.data.isAdult && r.data.isHasOptSvc && (_ = r.data.defaultOpt.serviceId,
+        //       R = r.data.defaultOpt.sellPrice, V = 0), void(!r.data.isAdult && r.data.isHasExtSvc && (_ = r.data.defaultExt.serviceId,
+        //       R = r.data.defaultExt.sellPrice, V = 1)));
+        //   };
+        // r.data.isPeaceTravel && r.data.isAdult ? !r.data.defInsDb && H() : H();
+        // var U = [],
+        //   F = function(e) {
+        //     p.isEmpty(e) || U.push({
+        //       revenueId: e.id || "",
+        //       businessCode: e.code || "",
+        //       serviceAmount: e.price || ""
+        //     });
+        //   };
+        // r.data.YyStatus && F(r.data.YyData), r.data.IssueStatus && F(r.data.stList.find(function(e) {
+        //   return "FastTicketOut" == e.code;
+        // }));
+        // var j = Object.assign({}, r.data.addressInfo);
+        // if (p.isEmpty(r.data.addressInfo) || (j = {
+        //     address: r.data.addressInfo.addressDetail || "",
+        //     city: r.data.addressInfo.modefyRegion[1].replace(/市/, "") || "",
+        //     district: r.data.addressInfo.modefyRegion[2].replace(/市/, "") || "",
+        //     expressFee: r.data.addressInfo.expressFee || "",
+        //     hdSupplierId: r.data.addressInfo.hdSupplierId || "",
+        //     homeDeliveryId: r.data.addressInfo.homeDeliveryId || "",
+        //     phone: r.data.addressInfo.contactPhone || "",
+        //     province: r.data.addressInfo.modefyRegion[0].replace(/省/, "") || "",
+        //     receiver: r.data.addressInfo.addName || ""
+        //   }, j.agentFee = 1e3 * r.data.addressInfo.agentFee * (l + D) / 1e3, 3 <= r.data.featureValue && !!r.data.homeDelivery.show && (j.expressFee = 0)),
+        //   2 == r.data.localInfo.revenueType) {
+        //   var B = g.find(function(e) {
+        //     return "FastTicketOut" == e.code;
+        //   });
+        //   p.isEmpty(B) || U.push({
+        //     revenueId: B.id || "",
+        //     businessCode: B.code || "",
+        //     serviceAmount: B.price || ""
+        //   });
+        // }
+        // if (4 == r.data.localInfo.revenueType) {
+        //   var q = g.find(function(e) {
+        //     return "VIPHall" == e.code;
+        //   });
+        //   p.isEmpty(q) || U.push({
+        //     revenueId: q.id || "",
+        //     businessCode: q.code || "",
+        //     serviceAmount: q.price || ""
+        //   });
+        // }
+        // var Y = r.data.busInfo,
+        //   W = r.data.localInfo,
+        //   G = r.data;
+        // (e = {
+        //   isSubscrible: 2 == Y.bookingType,
+        //   totalAmount: G.totalPrice,
+        //   serviceChargeId: Y.serviceChargeID,
+        //   serviceChargeType: Y.serviceChargeType,
+        //   serviceChargePrice: G.isHasService ? Y.serviceChargePrice * o : 0,
+        //   insurances: O,
+        //   vipChargeId: _,
+        //   vipChargeAmount: R,
+        //   vipChargeType: V,
+        //   voucherId: 0,
+        //   voucherSellPrice: 0,
+        //   voucherCount: 0,
+        //   scheduleInfo: {
+        //     scheduleNo: W.scheduleNo || "",
+        //     scheduleId: W.scheduleId || "",
+        //     dptDate: W.dptDate || "",
+        //     supplierId: W.supplierId || "",
+        //     ticketPrice: Y.ticketPrice,
+        //     departure: Y.departure,
+        //     destination: Y.destination,
+        //     dptStation: Y.dptStation,
+        //     arrStation: Y.arrStation,
+        //     coachNo: Y.coachNo,
+        //     dptTime: Y.dptTime,
+        //     exData: m,
+        //     depId: W.depCId || 0,
+        //     desId: W.desCId || 0
+        //   },
+        //   contactInfo: t,
+        //   passengersInfo: G.isSupportChild ? d.concat([]) : d,
+        //   homeDeliveryInfo: G.homeDeliveryStatus && !p.isEmpty(j) ? j : null,
+        //   canOptionSchedules: !(0 < I) && G.isCheckAlternate,
+        //   optionSchedulesTimes: 0 < I || !G.isCheckAlternate ? [] : G.optionSchedulesTimes,
+        //   refundRuleId: G.refundStatus ? y.refund.id : 0,
+        //   refundRuleServicePrice: G.refundStatus ? y.refund.price : 0,
+        //   fastTicketOut: G.IssueStatus,
+        //   runningSchFlag: parseInt(Y.runningSchFlag) || 0,
+        //   preferentialList: P,
+        //   carVoucherInfo: {
+        //     voucherId: 0 < G.carCouNum ? G.carCoupon.vouId : 0,
+        //     voucherSellPrice: 0 < G.carCouNum ? G.carCoupon.vouSellPrice : 0,
+        //     voucherCount: 0 < G.carCouNum ? G.carCouNum : 0
+        //   }
+        // }).voucherCount = G.hasHotelCoupon ? G.hotelCouNum : 0, e.voucherId = G.hasHotelCoupon ? G.hotelCoupon.vouId : 0,
+        //   e.voucherSellPrice = G.hasHotelCoupon ? G.hotelCoupon.vouSellPrice : 0, e.adjustPrice = r.accMulti(G.adjustPrice, o),
+        //   e.pid = w, e.busVoucherInfo = G.busVoucherIsSel ? {
+        //     voucherId: G.busVoucher.vouId,
+        //     voucherSellPrice: G.busVoucher.vouSellPrice,
+        //     voucherCount: 1
+        //   } : {}, e.propertiesEntity = {
+        //     packageType: G.localInfo.revenueType || ""
+        //   }, e.categoryRevenueId = U, e.vipSubscribe = this.data.vipSubscribe && !this.data.ASisExceedLimit && this.data.subscribeInfoObj.isSubscribe ? 1 : 0,
+        //   a = e, b && (a.revenueRecommendCode = b), !p.isEmpty(r.data.selectCode) && 0 < r.data.selectCode.showPrice && (a.wechatCardCode = r.data.selectCode.code),
+        //   r.data.YyStatus && (a.activityType = "Bus_YiyuanFree", a.activityId = "46"), p.isEmpty(a.reduceCard_buy) && (a.preferentialCard = {}),
+        //   this.data.isHasRedCardBuy && this.data.isSelectedRedCard && (a.preferentialCard.buy = {
+        //     preferentialCardId: this.data.reduceCard_buy.id,
+        //     preferentialCardAmount: this.data.reduceCard_buy.discountMoney,
+        //     preferentialCardPrice: this.data.reduceCard_buy.sellPrice
+        //   }), this.data.isHasRedCardUse && this.data.isSelectedRedCard && (a.preferentialCard.timeCard = {
+        //     preferentialCardId: this.data.reduceCard_use.id,
+        //     preferentialCardAmount: this.data.reduceCard_use.discountMoney
+        //   }), wx.request({
+        //     url: f.createOrder,
+        //     method: "POST",
+        //     header: p.setHeader({
+        //       wxappscene: h.globalData.scene || ""
+        //     }),
+        //     data: JSON.stringify(a),
+        //     success: function(e) {
+        //       function t() {
+        //         return wx.setStorageSync("bus_orderSerialId", e.data.header.isSuccess ? e.data.body.serialId : ""),
+        //           e.data.header.isSuccess && r.data.vipSubscribe && r.data.isSelectedSubscribe && !r.data.ASisExceedLimit ? (r.queryReadyWithHold(function() {
+        //             r.data.isChannel ? wx.redirectTo({
+        //               url: "../orderdetail/orderdetail?isReadTime=true&orderSerialId=" + e.data.body.serialId
+        //             }) : r.ChannelWithHold(e.data.body.serialId);
+        //           }), r.data.isCanclePay = !1, !1) : "EI_PA_000001" == (e = e.data).header.errCode || "EI_PA_000002" == e.header.errCode ? (wx.showModal({
+        //             content: e.header.errMsg,
+        //             title: "温馨提示",
+        //             showCancel: !1,
+        //             confirmText: "确定",
+        //             confirmColor: "#3CC51F",
+        //             success: function(e) {
+        //               e.confirm && (r.setData({
+        //                 preferInfo: {}
+        //               }), r.funCountPrice(), r.btnToPay());
+        //             }
+        //           }), r.data.isCanclePay = !1, !1) : void(e.header.isSuccess ? (v = e.body.forceServiceFee,
+        //             e.body.forceServiceFee && 0 < e.body.forceServiceFee.activityLimit ? (r.setData({
+        //               forceServiceFee: e.body.forceServiceFee.activityLimit
+        //             }), r.setData({
+        //               showFSFee: !0
+        //             }), setTimeout(function() {
+        //               r.setData({
+        //                 showFSFee: !1
+        //               }), r.WXMobileGatewayRequest(e);
+        //             }, 2e3)) : r.WXMobileGatewayRequest(e), r.data.isHasPid && wx.removeStorageSync("bus_pid")) : (r.data.isCanclePay = !1,
+        //             p.alert(e.header.errMsg), u.default.setEvent(C, "DLDD18", "^名称:[" + e.header.errMsg + "]^")));
+        //       }
+        //       var a = new Date().getTime() - i;
+        //       a < r.data.loadingDuration ? setTimeout(function() {
+        //         r.animation.translateX(0).step(), r.setData({
+        //           isHiddenCar: !0,
+        //           animationData: r.animation.export()
+        //         }), t();
+        //       }, r.data.loadingDuration - a) : (r.animation.translateX(0).step(), r.setData({
+        //         isHiddenCar: !0,
+        //         animationData: r.animation.export()
+        //       }), t());
+        //     }
+        //   }), wx.setStorageSync("bus_lastPassengers", r.data.plists), r.funGetInsDoc(r.data.plists);
+        // var z = [];
+        this.reBtnToPay();
+        wx.navigateTo({
+       url: "/pages/bus/webapp/orderdetail/orderdetail?orderSerialId=" + this.data.noPaySerialId });
         
-        if (r.data.passengers.length)
-          {
-              this.reBtnToPay();
-              for (var J = r.data.plists, $ = Array.isArray(J), X = 0, J = $ ? J : J[Symbol.iterator]();;) {
-            var Z;
-            if ("break" === function() {
-                if ($) {
-                  if (X >= J.length) return "break";
-                  Z = J[X++];
-                } else {
-                  if ((X = J.next()).done) return "break";
-                  Z = X.value;
-                }
-                var e = Z,
-                  t = !!r.data.passengers.find(function(t) {
-                    return e.IDCard == t.IDCard && e.linkerName == t.linkerName;
-                  });
-                1 != e.source && t || z.push({
-                  certNo: e.IDCard,
-                  certType: 1,
-                  linkerName: e.linkerName,
-                  mobile: "",
-                  child: e.type ? e.type : 0
-                });
-              }()) break;
-          }} else
-            {for (var K = r.data.plists, Q = Array.isArray(K), ee = 0, K = Q ? K : K[Symbol.iterator]();;) {
-              var te;
-              if (Q) {
-                if (ee >= K.length) break;
-                te = K[ee++];
-              } else {
-                if ((ee = K.next()).done) break;
-                te = ee.value;
-              }
-              var ae = te;
-              z.push({
-                certNo: ae.IDCard,
-                certType: 1,
-                linkerName: ae.linkerName,
-                mobile: "",
-                child: ae.type ? ae.type : 0
-              });
-            }}
-        z.length && r.reqAddPassengers(z);
-      },
-      WXMobileGatewayRequest: function(e) {
-        if (0 >= this.data.totalPrice && 0 == v.activityLimit && 0 == v.blackMember && 0 == v.plat) return wx.redirectTo({
-          url: "../success/success?isReadTime=true&orderSerialId=" + e.body.serialId
-        }), this.data.isCanclePay = !1, !1;
-        var t = this,
-          a = e.body.encryptOrderId,
-          s = e.body.serialId,
-          i = t.data.totalPrice.toString(),
-          r = wx.getSystemInfoSync().model.match("iPhone") ? 2 : 1;
-        try {
-          wx.removeStorageSync("bus_cardCode");
-        } catch (t) {}
-        wx.request({
-          url: f.mobileGateway,
-          data: JSON.stringify({
-            orderSerialId: s,
-            orderId: a,
-            totalAmount: i,
-            memberId: t.data.memberid,
-            platForm: r,
-            openID: wx.getStorageSync("tongcheng.openid"),
-            IsSendHotelCoupon: 0,
-            platType: "1",
-            callBackName: "paymentCallBack"
-          }),
-          header: t.data.headerInfo,
-          method: "post",
-          success: function(e) {
-            var a = e.data;
-            if (a.body && a.body.TenAppPay) {
-              var i = a.body.TenAppPay;
-              wx.requestPayment({
-                timeStamp: i.TimeStamp,
-                nonceStr: i.NonceStr,
-                package: i.Package,
-                signType: "MD5",
-                paySign: i.Sign,
-                complete: function(e) {
-                  /ok/gi.test(e.errMsg) && wx.redirectTo({
-                    url: "../success/success?orderSerialId=" + s
-                  }), /fail|cancel/gi.test(e.errMsg) && wx.redirectTo({
-                    url: "../orderdetail/orderdetail?isReadTime=true&orderSerialId=" + s
-                  });
-                }
-              });
-            } else t.animation.translateX(0).step(), t.setData({
-              isHiddenCar: !0,
-              animationData: t.animation.export()
-            }), t.data.isCanclePay = !1, p.alert("调取支付失败，请重试！"), u.default.setEvent(C, "DLDD18", "^名称:[调取支付失败，请重试！]^");
-          },
-          complete: function() {}
-        });
+    //     if (r.data.passengers.length)
+    //       {
+              
+    //           for (var J = r.data.plists, $ = Array.isArray(J), X = 0, J = $ ? J : J[Symbol.iterator]();;) {
+    //         var Z;
+    //         if ("break" === function() {
+    //             if ($) {
+    //               if (X >= J.length) return "break";
+    //               Z = J[X++];
+    //             } else {
+    //               if ((X = J.next()).done) return "break";
+    //               Z = X.value;
+    //             }
+    //             var e = Z,
+    //               t = !!r.data.passengers.find(function(t) {
+    //                 return e.IDCard == t.IDCard && e.linkerName == t.linkerName;
+    //               });
+    //             1 != e.source && t || z.push({
+    //               certNo: e.IDCard,
+    //               certType: 1,
+    //               linkerName: e.linkerName,
+    //               mobile: "",
+    //               child: e.type ? e.type : 0
+    //             });
+    //           }()) break;
+    //       }} else
+    //         {for (var K = r.data.plists, Q = Array.isArray(K), ee = 0, K = Q ? K : K[Symbol.iterator]();;) {
+    //           var te;
+    //           if (Q) {
+    //             if (ee >= K.length) break;
+    //             te = K[ee++];
+    //           } else {
+    //             if ((ee = K.next()).done) break;
+    //             te = ee.value;
+    //           }
+    //           var ae = te;
+    //           z.push({
+    //             certNo: ae.IDCard,
+    //             certType: 1,
+    //             linkerName: ae.linkerName,
+    //             mobile: "",
+    //             child: ae.type ? ae.type : 0
+    //           });
+    //         }}
+    //     z.length && r.reqAddPassengers(z);
+    //   },
+    //   WXMobileGatewayRequest: function(e) {
+    //     if (0 >= this.data.totalPrice && 0 == v.activityLimit && 0 == v.blackMember && 0 == v.plat) return wx.redirectTo({
+    //       url: "../success/success?isReadTime=true&orderSerialId=" + e.body.serialId
+    //     }), this.data.isCanclePay = !1, !1;
+    //     var t = this,
+    //       a = e.body.encryptOrderId,
+    //       s = e.body.serialId,
+    //       i = t.data.totalPrice.toString(),
+    //       r = wx.getSystemInfoSync().model.match("iPhone") ? 2 : 1;
+    //     try {
+    //       wx.removeStorageSync("bus_cardCode");
+    //     } catch (t) {}
+    //     wx.request({
+    //       url: f.mobileGateway,
+    //       data: JSON.stringify({
+    //         orderSerialId: s,
+    //         orderId: a,
+    //         totalAmount: i,
+    //         memberId: t.data.memberid,
+    //         platForm: r,
+    //         openID: wx.getStorageSync("tongcheng.openid"),
+    //         IsSendHotelCoupon: 0,
+    //         platType: "1",
+    //         callBackName: "paymentCallBack"
+    //       }),
+    //       header: t.data.headerInfo,
+    //       method: "post",
+    //       success: function(e) {
+    //         var a = e.data;
+    //         if (a.body && a.body.TenAppPay) {
+    //           var i = a.body.TenAppPay;
+    //           wx.requestPayment({
+    //             timeStamp: i.TimeStamp,
+    //             nonceStr: i.NonceStr,
+    //             package: i.Package,
+    //             signType: "MD5",
+    //             paySign: i.Sign,
+    //             complete: function(e) {
+    //               /ok/gi.test(e.errMsg) && wx.redirectTo({
+    //                 url: "../success/success?orderSerialId=" + s
+    //               }), /fail|cancel/gi.test(e.errMsg) && wx.redirectTo({
+    //                 url: "../orderdetail/orderdetail?isReadTime=true&orderSerialId=" + s
+    //               });
+    //             }
+    //           });
+    //         } else t.animation.translateX(0).step(), t.setData({
+    //           isHiddenCar: !0,
+    //           animationData: t.animation.export()
+    //         }), t.data.isCanclePay = !1, p.alert("调取支付失败，请重试！"), u.default.setEvent(C, "DLDD18", "^名称:[调取支付失败，请重试！]^");
+    //       },
+    //       complete: function() {}
+    //     });
         
       },
       funGetWechatCard: function(e) {
@@ -2668,99 +2669,99 @@ var api=require('../../../../config/api.js');
           }
         });
       },
-      judgeWechatCardIsCanUse: function(e) {
-        var t;
-        if (!p.isEmpty(e)) {
-          var a = this,
-            s = a.data.isAdult ? a.data.defaultOpt : a.data.defaultExt,
-            i = p.isEmpty(e.canUseList) ? [] : e.canUseList,
-            r = (e.cannotUseList,
-              0),
-            n = 0,
-            d = !1,
-            o = !1;
-          a.data.IssueStatus ? i.forEach(function(e) {
-              e.type && a.wechatCardIsInclude(e.service, 9) && (e.isCanUse = !0, e.isConfirmUse = !0);
-            }) : i.forEach(function(e) {
-              e.type && a.wechatCardIsInclude(e.service, 9) && (e.isCanUse = !1);
-            }), a.data.isPeaceTravel ? (a.data.isAdult ? (a.data.defInsDb && a.data.defIns.pubID && (d = !0), !a.data.defInsDb && !p.isEmpty(s) && s.sellPrice && (o = !0)) : !p.isEmpty(s) && s.sellPrice && (o = !0),
-              3 == a.data.localInfo.revenueType && (o = !0)) : (!p.isEmpty(s) && s.sellPrice && (o = !0),
-              3 == a.data.localInfo.revenueType && (o = !0), !a.data.defInsMultiNoBuy && a.data.isAdult && (d = !0)),
-            d ? i.forEach(function(e) {
-              if (!e.isConfirmUse) {
-                var t = a.wechatCardIsInclude(e.service, 2);
-                e.type && t && (e.isCanUse = !0, e.isConfirmUse = !0);
-              }
-            }) : i.forEach(function(e) {
-              if (!e.isConfirmUse) {
-                var t = a.wechatCardIsInclude(e.service, 2);
-                e.type && t && (e.isCanUse = !1);
-              }
-            }), o ? i.forEach(function(e) {
-              if (!e.isConfirmUse) {
-                var t = a.wechatCardIsInclude(e.service, 3);
-                e.type && t && (e.isCanUse = !0, e.isConfirmUse = !0);
-              }
-            }) : i.forEach(function(e) {
-              if (!e.isConfirmUse) {
-                var t = a.wechatCardIsInclude(e.service, 3);
-                e.type && t && (e.isCanUse = !1);
-              }
-            }), a.data.refundStatus && a.data.isRefundChange ? i.forEach(function(e) {
-              if (!e.isConfirmUse) {
-                var t = a.wechatCardIsInclude(e.service, 6);
-                1 == e.type && t && (e.isCanUse = !0, e.isConfirmUse = !0);
-              }
-            }) : i.forEach(function(e) {
-              if (!e.isConfirmUse) {
-                var t = a.wechatCardIsInclude(e.service, 6);
-                1 == e.type && t && (e.isCanUse = !1);
-              }
-            }), a.data.isCheckAlternate ? i.forEach(function(e) {
-              if (!e.isConfirmUse) {
-                var t = a.wechatCardIsInclude(e.service, 23);
-                1 == e.type && t && (e.isCanUse = !0, e.isConfirmUse = !0);
-              }
-            }) : i.forEach(function(e) {
-              if (!e.isConfirmUse) {
-                var t = a.wechatCardIsInclude(e.service, 23);
-                1 == e.type && t && (e.isCanUse = !1);
-              }
-            }), a.data.YyStatus ? i.forEach(function(e) {
-              if (!e.isConfirmUse) {
-                var t = a.wechatCardIsInclude(e.service, 21);
-                1 == e.type && t && (e.isCanUse = !0, e.isConfirmUse = !0);
-              }
-            }) : i.forEach(function(e) {
-              if (!e.isConfirmUse) {
-                var t = a.wechatCardIsInclude(e.service, 21);
-                1 == e.type && t && (e.isCanUse = !1);
-              }
-            }), a.data.vipSubscribe && !a.data.ASisExceedLimit && a.data.subscribeInfoObj.isSubscribe ? i.forEach(function(e) {
-              if (!e.isConfirmUse) {
-                var t = a.wechatCardIsInclude(e.service, 22);
-                1 == e.type && t && (e.isCanUse = !0, e.isConfirmUse = !0);
-              }
-            }) : i.forEach(function(e) {
-              if (!e.isConfirmUse) {
-                var t = a.wechatCardIsInclude(e.service, 22);
-                1 == e.type && t && (e.isCanUse = !1);
-              }
-            }), i.forEach(function(e) {
-              e.isCanUse = !(1 != e.isCanUse || !(1 == e.ticketType && 1 == a.data.busInfo.bookingType || 2 == e.ticketType && 2 == a.data.busInfo.bookingType || 3 == e.ticketType && a.data.homeDeliveryStatus || 0 == e.ticketType)),
-                1 == e.type && e.isConfirmUse && (e.isConfirmUse = !1), 1 == e.isCanUse ? r++ : n++;
-            }), e.canUseNumber = r, e.cannotUseNumber = e.cannotUseList.length + n, a.setData((t = {},
-              t["cardMsg.canUseNumber"] = r, t["cardMsg.cannotUseNumber"] = e.cannotUseList.length + n,
-              t["cardMsg.canUseList"] = i, t.isGetCard = !!(0 < r), t)), r ? function() {
-              var e = wx.getStorageSync("bus_cardCode") || "",
-                t = !1;
-              if (e) {
-                for (var s = 0, i = a.data.cardMsg.canUseList.length; s < i; s++) a.data.cardMsg.canUseList[s].isCanUse && a.data.cardMsg.canUseList[s].code == e && (t = !0);
-                t || a.funChooseMaxCoupon();
-              }
-            }() : a.cancelSelectedWechatCard(), wx.setStorageSync("bus_cardMsg", a.data.cardMsg);
-        }
-      },
+      // judgeWechatCardIsCanUse: function(e) {
+      //   var t;
+      //   if (!p.isEmpty(e)) {
+      //     var a = this,
+      //       s = a.data.isAdult ? a.data.defaultOpt : a.data.defaultExt,
+      //       i = p.isEmpty(e.canUseList) ? [] : e.canUseList,
+      //       r = (e.cannotUseList,
+      //         0),
+      //       n = 0,
+      //       d = !1,
+      //       o = !1;
+      //     a.data.IssueStatus ? i.forEach(function(e) {
+      //         e.type && a.wechatCardIsInclude(e.service, 9) && (e.isCanUse = !0, e.isConfirmUse = !0);
+      //       }) : i.forEach(function(e) {
+      //         e.type && a.wechatCardIsInclude(e.service, 9) && (e.isCanUse = !1);
+      //       }), a.data.isPeaceTravel ? (a.data.isAdult ? (a.data.defInsDb && a.data.defIns.pubID && (d = !0), !a.data.defInsDb && !p.isEmpty(s) && s.sellPrice && (o = !0)) : !p.isEmpty(s) && s.sellPrice && (o = !0),
+      //         3 == a.data.localInfo.revenueType && (o = !0)) : (!p.isEmpty(s) && s.sellPrice && (o = !0),
+      //         3 == a.data.localInfo.revenueType && (o = !0), !a.data.defInsMultiNoBuy && a.data.isAdult && (d = !0)),
+      //       d ? i.forEach(function(e) {
+      //         if (!e.isConfirmUse) {
+      //           var t = a.wechatCardIsInclude(e.service, 2);
+      //           e.type && t && (e.isCanUse = !0, e.isConfirmUse = !0);
+      //         }
+      //       }) : i.forEach(function(e) {
+      //         if (!e.isConfirmUse) {
+      //           var t = a.wechatCardIsInclude(e.service, 2);
+      //           e.type && t && (e.isCanUse = !1);
+      //         }
+      //       }), o ? i.forEach(function(e) {
+      //         if (!e.isConfirmUse) {
+      //           var t = a.wechatCardIsInclude(e.service, 3);
+      //           e.type && t && (e.isCanUse = !0, e.isConfirmUse = !0);
+      //         }
+      //       }) : i.forEach(function(e) {
+      //         if (!e.isConfirmUse) {
+      //           var t = a.wechatCardIsInclude(e.service, 3);
+      //           e.type && t && (e.isCanUse = !1);
+      //         }
+      //       }), a.data.refundStatus && a.data.isRefundChange ? i.forEach(function(e) {
+      //         if (!e.isConfirmUse) {
+      //           var t = a.wechatCardIsInclude(e.service, 6);
+      //           1 == e.type && t && (e.isCanUse = !0, e.isConfirmUse = !0);
+      //         }
+      //       }) : i.forEach(function(e) {
+      //         if (!e.isConfirmUse) {
+      //           var t = a.wechatCardIsInclude(e.service, 6);
+      //           1 == e.type && t && (e.isCanUse = !1);
+      //         }
+      //       }), a.data.isCheckAlternate ? i.forEach(function(e) {
+      //         if (!e.isConfirmUse) {
+      //           var t = a.wechatCardIsInclude(e.service, 23);
+      //           1 == e.type && t && (e.isCanUse = !0, e.isConfirmUse = !0);
+      //         }
+      //       }) : i.forEach(function(e) {
+      //         if (!e.isConfirmUse) {
+      //           var t = a.wechatCardIsInclude(e.service, 23);
+      //           1 == e.type && t && (e.isCanUse = !1);
+      //         }
+      //       }), a.data.YyStatus ? i.forEach(function(e) {
+      //         if (!e.isConfirmUse) {
+      //           var t = a.wechatCardIsInclude(e.service, 21);
+      //           1 == e.type && t && (e.isCanUse = !0, e.isConfirmUse = !0);
+      //         }
+      //       }) : i.forEach(function(e) {
+      //         if (!e.isConfirmUse) {
+      //           var t = a.wechatCardIsInclude(e.service, 21);
+      //           1 == e.type && t && (e.isCanUse = !1);
+      //         }
+      //       }), a.data.vipSubscribe && !a.data.ASisExceedLimit && a.data.subscribeInfoObj.isSubscribe ? i.forEach(function(e) {
+      //         if (!e.isConfirmUse) {
+      //           var t = a.wechatCardIsInclude(e.service, 22);
+      //           1 == e.type && t && (e.isCanUse = !0, e.isConfirmUse = !0);
+      //         }
+      //       }) : i.forEach(function(e) {
+      //         if (!e.isConfirmUse) {
+      //           var t = a.wechatCardIsInclude(e.service, 22);
+      //           1 == e.type && t && (e.isCanUse = !1);
+      //         }
+      //       }), i.forEach(function(e) {
+      //         e.isCanUse = !(1 != e.isCanUse || !(1 == e.ticketType && 1 == a.data.busInfo.bookingType || 2 == e.ticketType && 2 == a.data.busInfo.bookingType || 3 == e.ticketType && a.data.homeDeliveryStatus || 0 == e.ticketType)),
+      //           1 == e.type && e.isConfirmUse && (e.isConfirmUse = !1), 1 == e.isCanUse ? r++ : n++;
+      //       }), e.canUseNumber = r, e.cannotUseNumber = e.cannotUseList.length + n, a.setData((t = {},
+      //         t["cardMsg.canUseNumber"] = r, t["cardMsg.cannotUseNumber"] = e.cannotUseList.length + n,
+      //         t["cardMsg.canUseList"] = i, t.isGetCard = !!(0 < r), t)), r ? function() {
+      //         var e = wx.getStorageSync("bus_cardCode") || "",
+      //           t = !1;
+      //         if (e) {
+      //           for (var s = 0, i = a.data.cardMsg.canUseList.length; s < i; s++) a.data.cardMsg.canUseList[s].isCanUse && a.data.cardMsg.canUseList[s].code == e && (t = !0);
+      //           t || a.funChooseMaxCoupon();
+      //         }
+      //       }() : a.cancelSelectedWechatCard(), wx.setStorageSync("bus_cardMsg", a.data.cardMsg);
+      //   }
+      // },
       funChooseMaxCoupon: function() {
         for (var e = this, t = 0, a = !1, s = e.data.selectCode, i = 0, r = e.data.cardMsg.canUseList.length; i < r; i++) e.data.cardMsg.canUseList[i].isCanUse && e.data.cardMsg.canUseList[i].showPrice > t && (t = e.data.cardMsg.canUseList[i].showPrice,
           e.data.cardMsg.canUseList[i]), e.data.plists.length && s && s.code && e.data.cardMsg.canUseList[i].code == s.code && e.data.cardMsg.canUseList[i].isCanUse && (a = !0);
